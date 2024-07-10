@@ -4,8 +4,12 @@ import httpStatus from "http-status";
 import { productService } from "./product.service";
 
 //destructure services
-const { addProductIntoDB, getSingleProductFromDB, deleteProductFromDB } =
-  productService;
+const {
+  addProductIntoDB,
+  getSingleProductFromDB,
+  deleteProductFromDB,
+  getAllProductFromDB,
+} = productService;
 
 const addProduct = catchAsync(async (req, res) => {
   const result = await addProductIntoDB(req.body);
@@ -39,9 +43,19 @@ const deleteProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getAllProduct = catchAsync(async (req, res) => {
+  const result = await getAllProductFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Product are retrived successfully",
+    data: result,
+  });
+});
 
 export const productController = {
   addProduct,
   getSingleProduct,
   deleteProduct,
+  getAllProduct,
 };
