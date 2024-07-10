@@ -4,7 +4,8 @@ import httpStatus from "http-status";
 import { productService } from "./product.service";
 
 //destructure services
-const { addProductIntoDB, getSingleProductFromDB } = productService;
+const { addProductIntoDB, getSingleProductFromDB, deleteProductFromDB } =
+  productService;
 
 const addProduct = catchAsync(async (req, res) => {
   const result = await addProductIntoDB(req.body);
@@ -28,7 +29,19 @@ const getSingleProduct = catchAsync(async (req, res) => {
   });
 });
 
+const deleteProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await deleteProductFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Product deleted successfully",
+    data: result,
+  });
+});
+
 export const productController = {
   addProduct,
   getSingleProduct,
+  deleteProduct,
 };
