@@ -9,6 +9,7 @@ const {
   getSingleProductFromDB,
   deleteProductFromDB,
   getAllProductFromDB,
+  updateProductFromDB,
 } = productService;
 
 const addProduct = catchAsync(async (req, res) => {
@@ -53,9 +54,22 @@ const getAllProduct = catchAsync(async (req, res) => {
   });
 });
 
+const updateProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const quantity = req.body.quantity;
+  const result = await updateProductFromDB(id, quantity);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Product updated successfully",
+    data: result,
+  });
+});
+
 export const productController = {
   addProduct,
   getSingleProduct,
   deleteProduct,
   getAllProduct,
+  updateProduct,
 };
