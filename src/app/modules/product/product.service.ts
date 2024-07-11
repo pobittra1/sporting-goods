@@ -23,14 +23,27 @@ const deleteProductFromDB = async (id: string) => {
   return result;
 };
 const getAllProductFromDB = async (query: Record<string, unknown>) => {
+  const queryObj = { ...query };
   let name = "";
   if (query?.name) {
     name = query?.name as string;
   }
-  // get all Product
-  const result = await Product.find({ name: { $regex: name, $options: "i" } });
+  const searchQuery = Product.find({ name: { $regex: name, $options: "i" } });
 
-  return result;
+  //filtering
+  delete queryObj.name;
+  delete queryObj.sort;
+  // get all Product
+  const filterQuery = searchQuery.find(queryObj);
+
+  let sort = "-createdAt";
+  if (query?.sort) {
+    sort = query?.sort as string;
+  }
+
+  const sortQuery = await filterQuery.sort(sort);
+
+  return sortQuery;
 };
 
 const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
