@@ -22,9 +22,13 @@ const deleteProductFromDB = async (id: string) => {
 
   return result;
 };
-const getAllProductFromDB = async () => {
-  // delete the Product
-  const result = await Product.find();
+const getAllProductFromDB = async (query: Record<string, unknown>) => {
+  let name = "";
+  if (query?.name) {
+    name = query?.name as string;
+  }
+  // get all Product
+  const result = await Product.find({ name: { $regex: name, $options: "i" } });
 
   return result;
 };
@@ -42,10 +46,16 @@ const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
   return result;
 };
 
+// const getProductsByCategoryFromDB = async (category: string) => {
+//   const product = await Product.findOne({ category: category });
+//   return product;
+// };
+
 export const productService = {
   addProductIntoDB,
   getSingleProductFromDB,
   deleteProductFromDB,
   getAllProductFromDB,
   updateProductFromDB,
+  // getProductsByCategoryFromDB,
 };

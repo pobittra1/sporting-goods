@@ -10,6 +10,7 @@ const {
   deleteProductFromDB,
   getAllProductFromDB,
   updateProductFromDB,
+  // getProductsByCategoryFromDB,
 } = productService;
 
 const addProduct = catchAsync(async (req, res) => {
@@ -45,7 +46,8 @@ const deleteProduct = catchAsync(async (req, res) => {
   });
 });
 const getAllProduct = catchAsync(async (req, res) => {
-  const result = await getAllProductFromDB();
+  const name = req.query;
+  const result = await getAllProductFromDB(name);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -66,10 +68,23 @@ const updateProduct = catchAsync(async (req, res) => {
   });
 });
 
+// const getProductsByCategory = catchAsync(async (req, res) => {
+//   const { category } = req.params;
+//   const result = await getProductsByCategoryFromDB(category);
+
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     message: "Products are retrieved succesfully !",
+//     data: result,
+//   });
+// });
+
 export const productController = {
   addProduct,
   getSingleProduct,
   deleteProduct,
   getAllProduct,
   updateProduct,
+  // getProductsByCategory,
 };

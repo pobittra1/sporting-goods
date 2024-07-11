@@ -10,6 +10,7 @@ const {
   deleteProduct,
   getAllProduct,
   updateProduct,
+  // getProductsByCategory,
 } = productController;
 //destructure validations
 const { addProductValidationSchema, updateProductValidationSchema } =
@@ -30,5 +31,6 @@ router.patch(
   validateRequest(updateProductValidationSchema),
   updateProduct
 );
+// router.get("/:category", getProductsByCategory);
 
 export const productRoute = router;
