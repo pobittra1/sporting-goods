@@ -25,7 +25,22 @@ export const updateProductValidationSchema = z.object({
   }),
 });
 
+export const addProductCartValidationSchema = z.object({
+  body: z.object({
+    name: z.string().max(50),
+    category: z.string(),
+    quantity: z.number(),
+    brand: z.string(),
+    rating: z.number(),
+    description: z.string(),
+    price: z.string(),
+    image: z.string(),
+    product: z.string(),
+  }),
+});
+
 export const productValidation = {
   addProductValidationSchema,
   updateProductValidationSchema,
+  addProductCartValidationSchema,
 };

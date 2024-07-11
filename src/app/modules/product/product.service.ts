@@ -1,6 +1,9 @@
+import httpStatus from "http-status";
 import AppError from "../../config/error/AppError";
-import { TProduct } from "./product.interface";
-import Product from "./product.model";
+import { TProduct, TProductCart } from "./product.interface";
+import { Models } from "./product.model";
+
+const { Product, ProductCart } = Models;
 
 const addProductIntoDB = async (productData: TProduct) => {
   const result = await Product.create(productData);
@@ -59,10 +62,29 @@ const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
   return result;
 };
 
-// const getProductsByCategoryFromDB = async (category: string) => {
-//   const product = await Product.findOne({ category: category });
-//   return product;
-// };
+const getProductsByCategoryFromDB = async (category: string) => {
+  const product = await Product.findOne({ category: category });
+  console.log("from servise", product);
+  return product;
+};
+
+const addProductToCartIntoDB = async (productCartedData: TProductCart) => {
+  const { product: productCartedId } = productCartedData;
+  const isExistProduct = await Product.findById(productCartedId);
+  if (!isExistProduct) {
+    throw new AppError(httpStatus.NOT_FOUND, "Product not found !");
+  }
+  // const { _id: productId } = isExistProduct;
+  const isExistProductCart = await ProductCart.findById(productCartedId);
+  if (isExistProductCart) {
+    isExistProduct.quantity = isExistProduct.quantity - 1;
+    isExistProductCart.quantity = isExistProductCart.quantity + 1;
+  }
+  if (!isExistProductCart) {
+    const result = await ProductCart.create(isExistProduct);
+    return result;
+  }
+};
 
 export const productService = {
   addProductIntoDB,
@@ -70,5 +92,6 @@ export const productService = {
   deleteProductFromDB,
   getAllProductFromDB,
   updateProductFromDB,
-  // getProductsByCategoryFromDB,
+  addProductToCartIntoDB,
+  getProductsByCategoryFromDB,
 };

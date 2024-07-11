@@ -10,7 +10,8 @@ const {
   deleteProductFromDB,
   getAllProductFromDB,
   updateProductFromDB,
-  // getProductsByCategoryFromDB,
+  getProductsByCategoryFromDB,
+  addProductToCartIntoDB,
 } = productService;
 
 const addProduct = catchAsync(async (req, res) => {
@@ -18,7 +19,7 @@ const addProduct = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Product is added successfully !",
+    message: "Product carted successfully !",
     data: result,
   });
 });
@@ -68,17 +69,30 @@ const updateProduct = catchAsync(async (req, res) => {
   });
 });
 
-// const getProductsByCategory = catchAsync(async (req, res) => {
-//   const { category } = req.params;
-//   const result = await getProductsByCategoryFromDB(category);
+const getProductsByCategory = catchAsync(async (req, res) => {
+  const { category } = req.params;
+  console.log("its params", req.params);
+  console.log("its query", req.query);
+  const result = await getProductsByCategoryFromDB(category);
 
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: "Products are retrieved succesfully !",
-//     data: result,
-//   });
-// });
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Products are retrieved succesfully !",
+    data: result,
+  });
+});
+
+const addProductToCart = catchAsync(async (req, res) => {
+  const result = await addProductToCartIntoDB(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Product is added successfully !",
+    data: result,
+  });
+});
 
 export const productController = {
   addProduct,
@@ -86,5 +100,6 @@ export const productController = {
   deleteProduct,
   getAllProduct,
   updateProduct,
-  // getProductsByCategory,
+  addProductToCart,
+  getProductsByCategory,
 };

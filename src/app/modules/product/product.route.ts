@@ -10,11 +10,15 @@ const {
   deleteProduct,
   getAllProduct,
   updateProduct,
-  // getProductsByCategory,
+  addProductToCart,
+  getProductsByCategory,
 } = productController;
 //destructure validations
-const { addProductValidationSchema, updateProductValidationSchema } =
-  productValidation;
+const {
+  addProductValidationSchema,
+  updateProductValidationSchema,
+  addProductCartValidationSchema,
+} = productValidation;
 
 const router = express.Router();
 
@@ -31,6 +35,12 @@ router.patch(
   validateRequest(updateProductValidationSchema),
   updateProduct
 );
-// router.get("/:category", getProductsByCategory);
+router.get("/category/:category", getProductsByCategory);
+
+router.post(
+  "/add-product-to-cart",
+  validateRequest(addProductCartValidationSchema),
+  addProductToCart
+);
 
 export const productRoute = router;
