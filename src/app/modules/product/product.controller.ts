@@ -56,8 +56,8 @@ const getAllProduct = catchAsync(async (req, res) => {
 
 const updateProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const quantity = req.body.quantity;
-  const result = await updateProductFromDB(id, quantity);
+  const data = req.body;
+  const result = await updateProductFromDB(id, data);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

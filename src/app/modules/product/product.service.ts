@@ -29,11 +29,13 @@ const getAllProductFromDB = async () => {
   return result;
 };
 
-const updateProductFromDB = async (id: string, quantity: number) => {
-  // delete the Product
+const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
+  // update the Product
+  const { name, category, quantity, brand, rating, description, price, image } =
+    payload;
   const result = await Product.findByIdAndUpdate(
     id,
-    { quantity },
+    { name, category, quantity, brand, rating, description, price, image },
     { new: true }
   );
 
