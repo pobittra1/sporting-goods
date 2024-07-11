@@ -93,16 +93,17 @@ const addProductToCartIntoDB = async (productCartedData: TProductCart) => {
   });
   // console.log("ay babu", isExistProductCart);
   if (isExistProductCart) {
-    // await Product.findOneAndUpdate(
-    //   { _id: objIdForStrProductId },
-    //   { stockQuantity: -1 },
-    //   { new: true }
-    // );
-    // await ProductCart.findOneAndUpdate(
-    //   { product: strIdForProductId },
-    //   { quantity: +1 },
-    //   { new: true }
-    // );
+    // const stockQuantity = isExistProduct.stockQuantity;
+    await Product.findOneAndUpdate(
+      { _id: objIdForStrProductId },
+      { stockQuantity: isExistProduct.stockQuantity - 1 },
+      { new: true }
+    );
+    await ProductCart.findOneAndUpdate(
+      { product: strIdForProductId },
+      { quantity: isExistProductCart.quantity + 1 },
+      { new: true }
+    );
     // isExistProduct.stockQuantity = isExistProduct.stockQuantity - 1;
     // isExistProductCart.quantity = isExistProductCart.quantity + 1;
     // console.log(isExistProductCart.quantity);
