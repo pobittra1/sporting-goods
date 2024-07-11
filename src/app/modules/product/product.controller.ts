@@ -71,8 +71,6 @@ const updateProduct = catchAsync(async (req, res) => {
 
 const getProductsByCategory = catchAsync(async (req, res) => {
   const { category } = req.params;
-  console.log("its params", req.params);
-  console.log("its query", req.query);
   const result = await getProductsByCategoryFromDB(category);
 
   sendResponse(res, {

@@ -1,14 +1,13 @@
-import { Types } from "mongoose";
-
 export type TProduct = {
   name: string;
   category: string;
-  quantity: number;
+  stockQuantity: number;
   brand: string;
   rating: number;
   description: string;
   price: string;
   image: string;
+  product: string;
 };
 export type TProductCart = {
   name: string;
@@ -19,5 +18,5 @@ export type TProductCart = {
   description: string;
   price: string;
   image: string;
-  product: Types.ObjectId;
+  product: string;
 };

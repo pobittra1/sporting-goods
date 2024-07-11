@@ -1,9 +1,13 @@
 import httpStatus from "http-status";
 import AppError from "../../config/error/AppError";
 import { TProduct, TProductCart } from "./product.interface";
-import { Models } from "./product.model";
+import { Product } from "./product.model";
+import mongoose from "mongoose";
+import { ProductCart } from "./productCart.model";
 
-const { Product, ProductCart } = Models;
+// import { Models } from "./product.model";
+
+// const { Product, ProductCart } = Models;
 
 const addProductIntoDB = async (productData: TProduct) => {
   const result = await Product.create(productData);
@@ -51,11 +55,19 @@ const getAllProductFromDB = async (query: Record<string, unknown>) => {
 
 const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
   // update the Product
-  const { name, category, quantity, brand, rating, description, price, image } =
-    payload;
+  const {
+    name,
+    category,
+    stockQuantity,
+    brand,
+    rating,
+    description,
+    price,
+    image,
+  } = payload;
   const result = await Product.findByIdAndUpdate(
     id,
-    { name, category, quantity, brand, rating, description, price, image },
+    { name, category, stockQuantity, brand, rating, description, price, image },
     { new: true }
   );
 
@@ -64,24 +76,41 @@ const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
 
 const getProductsByCategoryFromDB = async (category: string) => {
   const product = await Product.findOne({ category: category });
-  console.log("from servise", product);
   return product;
 };
 
 const addProductToCartIntoDB = async (productCartedData: TProductCart) => {
   const { product: productCartedId } = productCartedData;
-  const isExistProduct = await Product.findById(productCartedId);
+  const objIdForStrProductId = new mongoose.Types.ObjectId(productCartedId);
+  const isExistProduct = await Product.findById(objIdForStrProductId);
   if (!isExistProduct) {
     throw new AppError(httpStatus.NOT_FOUND, "Product not found !");
   }
-  // const { _id: productId } = isExistProduct;
-  const isExistProductCart = await ProductCart.findById(productCartedId);
+  const strIdForProductId = objIdForStrProductId.toString();
+
+  const isExistProductCart = await ProductCart.findOne({
+    product: strIdForProductId,
+  });
+  // console.log("ay babu", isExistProductCart);
   if (isExistProductCart) {
-    isExistProduct.quantity = isExistProduct.quantity - 1;
-    isExistProductCart.quantity = isExistProductCart.quantity + 1;
+    // await Product.findOneAndUpdate(
+    //   { _id: objIdForStrProductId },
+    //   { stockQuantity: -1 },
+    //   { new: true }
+    // );
+    // await ProductCart.findOneAndUpdate(
+    //   { product: strIdForProductId },
+    //   { quantity: +1 },
+    //   { new: true }
+    // );
+    // isExistProduct.stockQuantity = isExistProduct.stockQuantity - 1;
+    // isExistProductCart.quantity = isExistProductCart.quantity + 1;
+    // console.log(isExistProductCart.quantity);
   }
-  if (!isExistProductCart) {
-    const result = await ProductCart.create(isExistProduct);
+  if (isExistProductCart === null) {
+    isExistProduct.product = productCartedId;
+    const result = await ProductCart.create(productCartedData);
+    console.log("something");
     return result;
   }
 };

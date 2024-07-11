@@ -1,25 +1,23 @@
 import mongoose, { Schema } from "mongoose";
-import { TProduct } from "./product.interface";
+import { TProductCart } from "./product.interface";
 
-const productSchema = new Schema<TProduct>(
+const productCartSchema = new Schema<TProductCart>(
   {
     name: { type: String, required: [true, "name is required"] },
     category: { type: String, required: [true, "category is required"] },
-    stockQuantity: { type: Number },
+    quantity: { type: Number, default: 1 },
     brand: { type: String, required: [true, "brand is required"] },
     rating: { type: Number },
     description: { type: String, required: [true, "description is required"] },
     price: { type: String, required: [true, "price is required"] },
     image: { type: String, required: [true, "image is required"] },
-    product: { type: String },
+    product: { type: String, required: [true, "product is required"] },
   },
   { timestamps: true }
 );
 
-// Create product model
-export const Product = mongoose.model<TProduct>("Product", productSchema);
-
-// export const Models = {
-//   Product,
-//   ProductCart,
-// };
+// Create product cart model
+export const ProductCart = mongoose.model<TProductCart>(
+  "ProductCart",
+  productCartSchema
+);
