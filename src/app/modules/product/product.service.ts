@@ -30,7 +30,6 @@ const deleteProductFromDB = async (id: string) => {
   return result;
 };
 const getAllProductFromDB = async (query: Record<string, unknown>) => {
-  console.log(query);
   const queryObj = { ...query };
   let name = "";
   if (query?.name) {
@@ -43,6 +42,7 @@ const getAllProductFromDB = async (query: Record<string, unknown>) => {
   delete queryObj.sort;
   // get all Product
   const filterQuery = searchQuery.find(queryObj);
+  // console.log(filterQuery);
 
   let sort = "-createdAt";
   if (query?.sort) {
