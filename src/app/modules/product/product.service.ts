@@ -30,6 +30,7 @@ const deleteProductFromDB = async (id: string) => {
   return result;
 };
 const getAllProductFromDB = async (query: Record<string, unknown>) => {
+  console.log(query);
   const queryObj = { ...query };
   let name = "";
   if (query?.name) {
@@ -75,7 +76,7 @@ const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
 };
 
 const getProductsByCategoryFromDB = async (category: string) => {
-  const product = await Product.findOne({ category: category });
+  const product = await Product.find({ category: category });
   return product;
 };
 
@@ -91,9 +92,7 @@ const addProductToCartIntoDB = async (productCartedData: TProductCart) => {
   const isExistProductCart = await ProductCart.findOne({
     product: strIdForProductId,
   });
-  // console.log("ay babu", isExistProductCart);
   if (isExistProductCart) {
-    // const stockQuantity = isExistProduct.stockQuantity;
     await Product.findOneAndUpdate(
       { _id: objIdForStrProductId },
       { stockQuantity: isExistProduct.stockQuantity - 1 },
@@ -104,14 +103,10 @@ const addProductToCartIntoDB = async (productCartedData: TProductCart) => {
       { quantity: isExistProductCart.quantity + 1 },
       { new: true }
     );
-    // isExistProduct.stockQuantity = isExistProduct.stockQuantity - 1;
-    // isExistProductCart.quantity = isExistProductCart.quantity + 1;
-    // console.log(isExistProductCart.quantity);
   }
   if (isExistProductCart === null) {
     isExistProduct.product = productCartedId;
     const result = await ProductCart.create(productCartedData);
-    console.log("something");
     return result;
   }
 };
