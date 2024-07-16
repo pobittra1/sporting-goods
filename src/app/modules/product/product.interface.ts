@@ -5,7 +5,7 @@ export type TProduct = {
   brand: string;
   rating: number;
   description: string;
-  price: string;
+  price: number;
   image: string;
   product: string;
 };
@@ -16,7 +16,7 @@ export type TProductCart = {
   brand: string;
   rating: number;
   description: string;
-  price: string;
+  price: number;
   image: string;
   product: string;
 };

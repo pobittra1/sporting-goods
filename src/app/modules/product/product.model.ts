@@ -9,7 +9,7 @@ const productSchema = new Schema<TProduct>(
     brand: { type: String, required: [true, "brand is required"] },
     rating: { type: Number },
     description: { type: String, required: [true, "description is required"] },
-    price: { type: String, required: [true, "price is required"] },
+    price: { type: Number, required: [true, "price is required"] },
     image: { type: String, required: [true, "image is required"] },
     product: { type: String },
   },

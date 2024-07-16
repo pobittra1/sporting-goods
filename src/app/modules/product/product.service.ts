@@ -42,7 +42,6 @@ const getAllProductFromDB = async (query: Record<string, unknown>) => {
   delete queryObj.sort;
   // get all Product
   const filterQuery = searchQuery.find(queryObj);
-  // console.log(filterQuery);
 
   let sort = "-createdAt";
   if (query?.sort) {
