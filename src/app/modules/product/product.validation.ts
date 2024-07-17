@@ -25,6 +25,11 @@ export const updateProductValidationSchema = z.object({
     product: z.string().optional(),
   }),
 });
+export const updateQuantityValidationSchema = z.object({
+  body: z.object({
+    quantity: z.number().optional(),
+  }),
+});
 
 export const addProductCartValidationSchema = z.object({
   body: z.object({
@@ -44,4 +49,5 @@ export const productValidation = {
   addProductValidationSchema,
   updateProductValidationSchema,
   addProductCartValidationSchema,
+  updateQuantityValidationSchema,
 };

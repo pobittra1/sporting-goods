@@ -13,6 +13,7 @@ const {
   getProductsByCategoryFromDB,
   addProductToCartIntoDB,
   getCartsProductFromDB,
+  updateQuantityFromDB,
 } = productService;
 
 const addProduct = catchAsync(async (req, res) => {
@@ -103,6 +104,19 @@ const getCartProducts = catchAsync(async (req, res) => {
   });
 });
 
+const updateQuantity = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+
+  const result = await updateQuantityFromDB(id, data);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Product quantity update successfully",
+    data: result,
+  });
+});
+
 export const productController = {
   addProduct,
   getSingleProduct,
@@ -112,4 +126,5 @@ export const productController = {
   addProductToCart,
   getProductsByCategory,
   getCartProducts,
+  updateQuantity,
 };

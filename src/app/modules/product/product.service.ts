@@ -115,6 +115,21 @@ const getCartsProductFromDB = async () => {
   return productCart;
 };
 
+const updateQuantityFromDB = async (
+  id: string,
+  payload: Partial<TProductCart>
+) => {
+  // update quantity
+  const { quantity } = payload;
+  const result = await ProductCart.findByIdAndUpdate(
+    id,
+    { quantity },
+    { new: true }
+  );
+
+  return result;
+};
+
 export const productService = {
   addProductIntoDB,
   getSingleProductFromDB,
@@ -124,4 +139,5 @@ export const productService = {
   addProductToCartIntoDB,
   getProductsByCategoryFromDB,
   getCartsProductFromDB,
+  updateQuantityFromDB,
 };

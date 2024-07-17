@@ -13,12 +13,14 @@ const {
   addProductToCart,
   getProductsByCategory,
   getCartProducts,
+  updateQuantity,
 } = productController;
 //destructure validations
 const {
   addProductValidationSchema,
   updateProductValidationSchema,
   addProductCartValidationSchema,
+  updateQuantityValidationSchema,
 } = productValidation;
 
 const router = express.Router();
@@ -45,4 +47,10 @@ router.post(
 );
 
 router.get("/cart-products/product", getCartProducts);
+
+router.patch(
+  "/quantity/:id",
+  validateRequest(updateQuantityValidationSchema),
+  updateQuantity
+);
 export const productRoute = router;
