@@ -110,6 +110,11 @@ const addProductToCartIntoDB = async (productCartedData: TProductCart) => {
   }
 };
 
+const getCartsProductFromDB = async () => {
+  const productCart = await ProductCart.find();
+  return productCart;
+};
+
 export const productService = {
   addProductIntoDB,
   getSingleProductFromDB,
@@ -118,4 +123,5 @@ export const productService = {
   updateProductFromDB,
   addProductToCartIntoDB,
   getProductsByCategoryFromDB,
+  getCartsProductFromDB,
 };

@@ -12,6 +12,7 @@ const {
   updateProductFromDB,
   getProductsByCategoryFromDB,
   addProductToCartIntoDB,
+  getCartsProductFromDB,
 } = productService;
 
 const addProduct = catchAsync(async (req, res) => {
@@ -92,6 +93,16 @@ const addProductToCart = catchAsync(async (req, res) => {
   });
 });
 
+const getCartProducts = catchAsync(async (req, res) => {
+  const result = await getCartsProductFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Carted Products are retrieved succesfully !",
+    data: result,
+  });
+});
+
 export const productController = {
   addProduct,
   getSingleProduct,
@@ -100,4 +111,5 @@ export const productController = {
   updateProduct,
   addProductToCart,
   getProductsByCategory,
+  getCartProducts,
 };

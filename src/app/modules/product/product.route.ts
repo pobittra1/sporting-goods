@@ -12,6 +12,7 @@ const {
   updateProduct,
   addProductToCart,
   getProductsByCategory,
+  getCartProducts,
 } = productController;
 //destructure validations
 const {
@@ -43,4 +44,5 @@ router.post(
   addProductToCart
 );
 
+router.get("/cart-products", getCartProducts);
 export const productRoute = router;
