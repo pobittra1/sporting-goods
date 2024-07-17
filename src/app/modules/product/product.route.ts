@@ -44,5 +44,5 @@ router.post(
   addProductToCart
 );
 
-router.get("/cart-products", getCartProducts);
+router.get("/cart-products/product", getCartProducts);
 export const productRoute = router;
