@@ -12,6 +12,7 @@ const productCartSchema = new Schema<TProductCart>(
     price: { type: Number, required: [true, "price is required"] },
     image: { type: String, required: [true, "image is required"] },
     product: { type: String, required: [true, "product is required"] },
+    stockQuantity: { type: Number, default: 0 },
   },
   { timestamps: true }
 );

@@ -19,4 +19,5 @@ export type TProductCart = {
   price: number;
   image: string;
   product: string;
+  stockQuantity: number;
 };

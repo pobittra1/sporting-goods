@@ -42,6 +42,7 @@ export const addProductCartValidationSchema = z.object({
     price: z.number(),
     image: z.string(),
     product: z.string(),
+    stockQuantity: z.number().default(0),
   }),
 });
 

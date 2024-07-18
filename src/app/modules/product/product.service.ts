@@ -86,6 +86,8 @@ const addProductToCartIntoDB = async (productCartedData: TProductCart) => {
   if (!isExistProduct) {
     throw new AppError(httpStatus.NOT_FOUND, "Product not found !");
   }
+
+  productCartedData.stockQuantity = isExistProduct.stockQuantity;
   const strIdForProductId = objIdForStrProductId.toString();
 
   const isExistProductCart = await ProductCart.findOne({
