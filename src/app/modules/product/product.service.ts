@@ -115,15 +115,37 @@ const getCartsProductFromDB = async () => {
   return productCart;
 };
 
-const updateQuantityFromDB = async (
-  id: string,
-  payload: Partial<TProductCart>
-) => {
-  // update quantity
-  const { quantity } = payload;
-  const result = await ProductCart.findByIdAndUpdate(
-    id,
-    { quantity },
+const increaseQuantityFromDB = async (id: string) => {
+  const product = await ProductCart.findOne({ _id: id });
+
+  if (!product) {
+    throw new AppError(httpStatus.NOT_FOUND, "Product not found !");
+  }
+
+  const newQuantity = product.quantity + 1;
+
+  // Update the product quantity
+  const result = await ProductCart.updateOne(
+    { _id: id },
+    { $set: { quantity: newQuantity } },
+    { new: true }
+  );
+
+  return result;
+};
+const decreaseQuantityFromDB = async (id: string) => {
+  const product = await ProductCart.findOne({ _id: id });
+
+  if (!product) {
+    throw new AppError(httpStatus.NOT_FOUND, "Product not found !");
+  }
+
+  const newQuantity = product.quantity - 1;
+
+  // Update the product quantity
+  const result = await ProductCart.updateOne(
+    { _id: id }, // Filter to find the specific product by ID
+    { $set: { quantity: newQuantity } }, // Set the new quantity
     { new: true }
   );
 
@@ -139,5 +161,6 @@ export const productService = {
   addProductToCartIntoDB,
   getProductsByCategoryFromDB,
   getCartsProductFromDB,
-  updateQuantityFromDB,
+  increaseQuantityFromDB,
+  decreaseQuantityFromDB,
 };

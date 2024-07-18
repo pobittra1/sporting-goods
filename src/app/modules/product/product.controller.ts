@@ -13,7 +13,8 @@ const {
   getProductsByCategoryFromDB,
   addProductToCartIntoDB,
   getCartsProductFromDB,
-  updateQuantityFromDB,
+  increaseQuantityFromDB,
+  decreaseQuantityFromDB,
 } = productService;
 
 const addProduct = catchAsync(async (req, res) => {
@@ -104,15 +105,25 @@ const getCartProducts = catchAsync(async (req, res) => {
   });
 });
 
-const updateQuantity = catchAsync(async (req, res) => {
+const increaseQuantity = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const data = req.body;
 
-  const result = await updateQuantityFromDB(id, data);
+  const result = await increaseQuantityFromDB(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Product quantity update successfully",
+    message: "Product quantity increase successfully",
+    data: result,
+  });
+});
+const decreaseQuantity = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await decreaseQuantityFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Product quantity decrease successfully",
     data: result,
   });
 });
@@ -126,5 +137,6 @@ export const productController = {
   addProductToCart,
   getProductsByCategory,
   getCartProducts,
-  updateQuantity,
+  increaseQuantity,
+  decreaseQuantity,
 };
